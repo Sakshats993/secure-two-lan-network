@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Status | Secure Two-LAN</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <meta http-equiv="refresh" content="30">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">📊</div>
+                <div class="header-text">
+                    <h1>Network Status Dashboard</h1>
+                    <p class="subtitle">Auto-refreshes every 30 seconds</p>
+                </div>
+                <a href="index.html" class="back-btn">← Home</a>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title">🔧 Service Status</h2>
+            <div class="status-table">
+                <div class="status-row"><span class="service-name">Apache2 Web Server</span><span class="service-status status-ok">● Running</span><span class="service-detail">Port 80 | LAN1 only</span></div>
+                <div class="status-row"><span class="service-name">ISC DHCP Server</span><span class="service-status status-ok">● Running</span><span class="service-detail">eth0.10 + eth0.20</span></div>
+                <div class="status-row"><span class="service-name">Firewall (iptables)</span><span class="service-status status-ok">● Active</span><span class="service-detail">Zone isolation enabled</span></div>
+                <div class="status-row"><span class="service-name">UFW</span><span class="service-status status-ok">● Active</span><span class="service-detail">LAN1 whitelist</span></div>
+                <div class="status-row"><span class="service-name">Fail2Ban</span><span class="service-status status-ok">● Running</span><span class="service-detail">SSH + Apache protection</span></div>
+                <div class="status-row"><span class="service-name">Traffic Capture</span><span class="service-status status-ok">● Active</span><span class="service-detail">/var/log/traffic/</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🌐 Network Zones</h2>
+            <div class="zone-grid">
+                <div class="zone-card zone-lan1">
+                    <h3>LAN1 — Internal</h3>
+                    <table class="zone-table">
+                        <tr><td>Network</td><td>192.168.1.0/24</td></tr>
+                        <tr><td>Gateway</td><td>192.168.1.1</td></tr>
+                        <tr><td>DHCP Range</td><td>192.168.1.100-200</td></tr>
+                        <tr><td>DNS</td><td>8.8.8.8, 8.8.4.4</td></tr>
+                        <tr><td>VLAN ID</td><td>10</td></tr>
+                        <tr><td>Interface</td><td>eth0.10</td></tr>
+                        <tr><td>Trust Level</td><td class="trusted">✅ Trusted</td></tr>
+                    </table>
+                </div>
+                <div class="zone-card zone-lan2">
+                    <h3>LAN2 — DMZ</h3>
+                    <table class="zone-table">
+                        <tr><td>Network</td><td>192.168.2.0/24</td></tr>
+                        <tr><td>Gateway</td><td>192.168.2.1</td></tr>
+                        <tr><td>DHCP Range</td><td>192.168.2.100-200</td></tr>
+                        <tr><td>DNS</td><td>8.8.8.8</td></tr>
+                        <tr><td>VLAN ID</td><td>20</td></tr>
+                        <tr><td>Interface</td><td>eth0.20</td></tr>
+                        <tr><td>Trust Level</td><td class="restricted">🚫 Restricted</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🔒 Firewall Rules Summary</h2>
+            <div class="rules-table">
+                <div class="rule-header"><span>Source</span><span>Destination</span><span>Protocol</span><span>Action</span></div>
+                <div class="rule-row allow"><span>LAN1 (192.168.1.x)</span><span>Web Server</span><span>TCP 80/443</span><span>✅ ALLOW</span></div>
+                <div class="rule-row allow"><span>LAN1 (192.168.1.x)</span><span>Internet</span><span>Any</span><span>✅ ALLOW</span></div>
+                <div class="rule-row deny"><span>LAN2 (192.168.2.x)</span><span>LAN1</span><span>Any</span><span>🚫 BLOCK</span></div>
+                <div class="rule-row deny"><span>LAN1 (192.168.1.x)</span><span>LAN2</span><span>Any</span><span>🚫 BLOCK</span></div>
+                <div class="rule-row allow"><span>LAN2 (192.168.2.x)</span><span>Internet</span><span>TCP 80/443</span><span>✅ ALLOW</span></div>
+                <div class="rule-row allow"><span>Any</span><span>DHCP Server</span><span>UDP 67/68</span><span>✅ ALLOW</span></div>
+                <div class="rule-row deny"><span>Unknown DHCP</span><span>Broadcast</span><span>UDP 67</span><span>🚫 BLOCK (Snooping)</span></div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>🔒 Secure Two-LAN Network Status Page</p>
+            <p>Last refreshed: <span id="lastRefresh"></span></p>
+        </footer>
+    </div>
+    <script>document.getElementById('lastRefresh').textContent = new Date().toLocaleString();</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Secure Two-LAN Network</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">🔒</div>
+                <div class="header-text">
+                    <h1>Secure Two-LAN Network</h1>
+                    <p class="subtitle">Web Server Operational — LAN1 Internal Zone</p>
+                </div>
+                <div class="status-badge">
+                    <span class="pulse"></span>ONLINE
+                </div>
+            </div>
+        </header>
+
+        <section class="cards-grid">
+            <div class="card card--green">
+                <div class="card-icon">🖥️</div>
+                <div class="card-content">
+                    <h3>Web Server</h3>
+                    <p class="card-value">Active</p>
+                    <p class="card-detail">Apache2 | Port 80</p>
+                </div>
+            </div>
+            <div class="card card--blue">
+                <div class="card-icon">🏠</div>
+                <div class="card-content">
+                    <h3>LAN1 (Internal)</h3>
+                    <p class="card-value">192.168.1.0/24</p>
+                    <p class="card-detail">Trusted Zone ✅</p>
+                </div>
+            </div>
+            <div class="card card--orange">
+                <div class="card-icon">🔒</div>
+                <div class="card-content">
+                    <h3>LAN2 (DMZ)</h3>
+                    <p class="card-value">192.168.2.0/24</p>
+                    <p class="card-detail">Access Blocked 🚫</p>
+                </div>
+            </div>
+            <div class="card card--purple">
+                <div class="card-icon">📡</div>
+                <div class="card-content">
+                    <h3>DHCP Server</h3>
+                    <p class="card-value">Active</p>
+                    <p class="card-detail">Both zones served</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🏗️ Network Architecture</h2>
+            <div class="network-diagram">
+                <div class="diagram-row">
+                    <div class="net-node internet">🌐<br><span>Internet</span></div>
+                    <div class="arrow">→</div>
+                    <div class="net-node router">🔀<br><span>Router/Firewall<br>192.168.x.1</span></div>
+                </div>
+                <div class="diagram-divider">↓</div>
+                <div class="diagram-row split">
+                    <div class="net-node lan1">🏠<br><span>LAN1 Internal<br>192.168.1.0/24<br><em>Trusted Zone</em></span></div>
+                    <div class="blocked-arrow"><span class="block-symbol">🚫</span><span class="block-label">Isolated</span></div>
+                    <div class="net-node lan2">🏢<br><span>LAN2 DMZ<br>192.168.2.0/24<br><em>External Zone</em></span></div>
+                </div>
+                <div class="diagram-divider">↓ (HTTP only)</div>
+                <div class="net-node webserver">💻<br><span>Web Server<br>192.168.1.10:80</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🛡️ Security Features</h2>
+            <div class="feature-grid">
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>DHCP Snooping</strong><p>Prevents rogue DHCP server attacks</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Zone Isolation</strong><p>LAN1 ↔ LAN2 traffic blocked by iptables</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Web Server ACLs</strong><p>Access restricted to LAN1 (192.168.1.x) only</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Traffic Capture</strong><p>tcpdump on both VLAN interfaces</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Intrusion Detection</strong><p>Port scan & anomaly detection via Scapy</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Security Headers</strong><p>X-Frame-Options, XSS Protection & more</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>Fail2Ban</strong><p>Automated IP banning on brute force</p></div></div>
+                <div class="feature"><span class="feature-icon">✅</span><div><strong>SYN Flood Protection</strong><p>Rate limiting via iptables rules</p></div></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">📋 Your Connection Info</h2>
+            <div class="info-table">
+                <div class="info-row"><span class="info-label">Client IP</span><span class="info-value" id="clientIp">Detecting...</span></div>
+                <div class="info-row"><span class="info-label">Server Time</span><span class="info-value" id="serverTime"></span></div>
+                <div class="info-row"><span class="info-label">Network Zone</span><span class="info-value" id="networkZone">Checking...</span></div>
+                <div class="info-row"><span class="info-label">Access Level</span><span class="info-value access-granted">✅ Authorized (LAN1)</span></div>
+                <div class="info-row"><span class="info-label">Protocol</span><span class="info-value" id="protocol">HTTP</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">⚡ Quick Commands</h2>
+            <div class="code-grid">
+                <div class="code-block"><div class="code-label">Start Monitoring</div><code>sudo ./start-monitoring.sh</code></div>
+                <div class="code-block"><div class="code-label">Traffic Analyzer</div><code>sudo python3 scripts/traffic-analyzer.py</code></div>
+                <div class="code-block"><div class="code-label">Run Test Suite</div><code>sudo ./scripts/test-suite.sh</code></div>
+                <div class="code-block"><div class="code-label">Security Report</div><code>sudo python3 scripts/security-report.py</code></div>
+                <div class="code-block"><div class="code-label">View DHCP Leases</div><code>cat /var/lib/dhcp/dhcpd.leases</code></div>
+                <div class="code-block"><div class="code-label">Firewall Status</div><code>sudo iptables -L -n -v</code></div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>🔒 Secure Two-LAN Network | Built for Network Security Learning</p>
+            <p><a href="status.html">📊 Status Page</a> | <a href="https://github.com/Sakshats993/secure-two-lan-network" target="_blank">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('serverTime').textContent = new Date().toLocaleString();
+        document.getElementById('protocol').textContent = location.protocol === 'https:' ? 'HTTPS' : 'HTTP';
+
+        function detectZone(ip) {
+            if (ip.startsWith('192.168.1.')) return '🟢 LAN1 — Internal (Trusted)';
+            if (ip.startsWith('192.168.2.')) return '🔴 LAN2 — DMZ (Restricted)';
+            if (ip === '127.0.0.1' || ip === '::1') return '🟡 Localhost';
+            return '❓ Unknown Zone';
+        }
+
+        try {
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(o => pc.setLocalDescription(o));
+            pc.onicecandidate = (ice) => {
+                if (!ice?.candidate?.candidate) return;
+                const ip = ice.candidate.candidate.split(' ')[4];
+                if (ip?.includes('.')) {
+                    document.getElementById('clientIp').textContent = ip;
+                    document.getElementById('networkZone').textContent = detectZone(ip);
+                }
+                pc.close();
+            };
+        } catch (e) {
+            document.getElementById('clientIp').textContent = 'Check: ip addr';
+        }
+    </script>
+</body>
+</html>
